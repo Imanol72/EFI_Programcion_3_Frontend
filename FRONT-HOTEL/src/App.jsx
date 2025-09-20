@@ -27,8 +27,8 @@ function App() {
           <ClientsProvider>
             <ReservationsProvider>
               <Navbar />
+
               <Routes>
-                {/* Rutas públicas */}
                 <Route
                   path="/inicio-sesion"
                   element={
@@ -88,7 +88,6 @@ function App() {
                   }
                 />
 
-                {/* Home */}
                 <Route path="/" element={<Home />} />
               </Routes>
             </ReservationsProvider>
