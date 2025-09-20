@@ -1,35 +1,102 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import { RoomsProvider } from "./context/RoomsContext";
+import { ClientsProvider } from "./context/ClientsContext";
+import { ReservationsProvider } from "./context/ReservationsContext";
+
+import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
+
+import Navbar from "./components/Navbar";
+
+import Home from "./layouts/home/Home";
+import Login from "./layouts/auth/Login";
+import Register from "./layouts/auth/Register";
+import ForgotPassword from "./layouts/auth/ForgotPassword";
+import ResetPassword from "./layouts/auth/ResetPassword";
+
+import RoomsRoutes from "./layouts/rooms";
+import ClientsRoutes from "./layouts/clients";
+import ReservationsRoutes from "./layouts/reservations";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <AuthProvider>
+        <RoomsProvider>
+          <ClientsProvider>
+            <ReservationsProvider>
+              <Navbar />
+              <Routes>
+                {/* Rutas públicas */}
+                <Route
+                  path="/inicio-sesion"
+                  element={
+                    <PublicRoute>
+                      <Login />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/registro"
+                  element={
+                    <PublicRoute>
+                      <Register />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/forgot-password"
+                  element={
+                    <PublicRoute>
+                      <ForgotPassword />
+                    </PublicRoute>
+                  }
+                />
+                <Route
+                  path="/reset-password/:token"
+                  element={
+                    <PublicRoute>
+                      <ResetPassword />
+                    </PublicRoute>
+                  }
+                />
+
+                {/* Rutas privadas */}
+                <Route
+                  path="/rooms/*"
+                  element={
+                    <PrivateRoute>
+                      <RoomsRoutes />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/clients/*"
+                  element={
+                    <PrivateRoute>
+                      <ClientsRoutes />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/reservations/*"
+                  element={
+                    <PrivateRoute>
+                      <ReservationsRoutes />
+                    </PrivateRoute>
+                  }
+                />
+
+                {/* Home */}
+                <Route path="/" element={<Home />} />
+              </Routes>
+            </ReservationsProvider>
+          </ClientsProvider>
+        </RoomsProvider>
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;
