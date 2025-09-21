@@ -1,13 +1,15 @@
+// src/context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
-import authService from "../services/auth"; // acá irán las llamadas reales con axios
+import authService from "../services/auth"; // axios calls to backend
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);   // datos del usuario logueado
-  const [token, setToken] = useState(null); // JWT o similar
+  const [user, setUser] = useState(null);   // logged-in user data
+  const [token, setToken] = useState(null); // JWT or similar
   const [loading, setLoading] = useState(true);
 
+  // 🔑 Login
   const login = async (credentials) => {
     setLoading(true);
     try {
@@ -18,48 +20,62 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data.user));
       return { success: true };
     } catch (err) {
-      console.error("Error en login:", err);
-      return { success: false, error: err.response?.data?.message || "Error en login" };
+      console.error("Login error:", err);
+      return {
+        success: false,
+        error: err.response?.data?.message || "Login failed",
+      };
     } finally {
       setLoading(false);
     }
   };
 
+  // 📝 Register
   const register = async (userData) => {
     setLoading(true);
     try {
       const data = await authService.register(userData);
       return { success: true, data };
     } catch (err) {
-      console.error("Error en registro:", err);
-      return { success: false, error: err.response?.data?.message || "Error en registro" };
+      console.error("Register error:", err);
+      return {
+        success: false,
+        error: err.response?.data?.message || "Registration failed",
+      };
     } finally {
       setLoading(false);
     }
   };
 
+  // 📧 Forgot password
   const forgotPassword = async (email) => {
     setLoading(true);
     try {
       await authService.forgotPassword(email);
       return { success: true };
     } catch (err) {
-      console.error("Error en forgotPassword:", err);
-      return { success: false, error: err.response?.data?.message || "Error al enviar email" };
+      console.error("Forgot password error:", err);
+      return {
+        success: false,
+        error: err.response?.data?.message || "Error sending email",
+      };
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔑 Resetear contraseña con token
+  // 🔑 Reset password with token
   const resetPassword = async (token, newPassword) => {
     setLoading(true);
     try {
       await authService.resetPassword(token, newPassword);
       return { success: true };
     } catch (err) {
-      console.error("Error en resetPassword:", err);
-      return { success: false, error: err.response?.data?.message || "Error al restablecer contraseña" };
+      console.error("Reset password error:", err);
+      return {
+        success: false,
+        error: err.response?.data?.message || "Password reset failed",
+      };
     } finally {
       setLoading(false);
     }
@@ -73,6 +89,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  // ♻️ Restore session from localStorage
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUser = localStorage.getItem("user");
