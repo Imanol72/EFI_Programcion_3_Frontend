@@ -7,17 +7,17 @@ import { ReservationsProvider } from "./context/ReservationsContext";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar"; // corregido: Navbar con N mayúscula y b minúscula
 
-import Home from "./layouts/home/Home";
-import Login from "./layouts/auth/Login";
-import Register from "./layouts/auth/Register";
-import ForgotPassword from "./layouts/auth/ForgotPassword";
-import ResetPassword from "./layouts/auth/ResetPassword";
+import Home from "./layouts/Home"; // corregido: Home con H mayúscula
+import LoginLayout from "./layouts/LoginLayout";
+import RegisterLayout from "./layouts/RegisterLayout";
+import ForgotPasswordLayout from "./layouts/ForgotPasswordLayout";
+import ResetPasswordLayout from "./layouts/ResetPasswordLayout";
 
-import RoomsRoutes from "./layouts/rooms";
-import ClientsRoutes from "./layouts/clients";
-import ReservationsRoutes from "./layouts/reservations";
+import RoomsRoutes from "./layouts/Rooms"; // Rooms con R mayúscula
+import ClientsRoutes from "./layouts/Clients"; // Clients con C mayúscula
+import ReservationsRoutes from "./layouts/Reservations"; // Reservations con R mayúscula
 
 function App() {
   return (
@@ -29,11 +29,12 @@ function App() {
               <Navbar />
 
               <Routes>
+                {/* Public routes */}
                 <Route
                   path="/inicio-sesion"
                   element={
                     <PublicRoute>
-                      <Login />
+                      <LoginLayout />
                     </PublicRoute>
                   }
                 />
@@ -41,7 +42,7 @@ function App() {
                   path="/registro"
                   element={
                     <PublicRoute>
-                      <Register />
+                      <RegisterLayout />
                     </PublicRoute>
                   }
                 />
@@ -49,7 +50,7 @@ function App() {
                   path="/forgot-password"
                   element={
                     <PublicRoute>
-                      <ForgotPassword />
+                      <ForgotPasswordLayout />
                     </PublicRoute>
                   }
                 />
@@ -57,16 +58,16 @@ function App() {
                   path="/reset-password/:token"
                   element={
                     <PublicRoute>
-                      <ResetPassword />
+                      <ResetPasswordLayout />
                     </PublicRoute>
                   }
                 />
 
-                {/* Rutas privadas */}
+                {/* Private routes */}
                 <Route
                   path="/rooms/*"
                   element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={["admin", "empleado"]}>
                       <RoomsRoutes />
                     </PrivateRoute>
                   }
@@ -74,7 +75,7 @@ function App() {
                 <Route
                   path="/clients/*"
                   element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={["admin", "empleado"]}>
                       <ClientsRoutes />
                     </PrivateRoute>
                   }
@@ -82,12 +83,13 @@ function App() {
                 <Route
                   path="/reservations/*"
                   element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={["admin", "empleado", "cliente"]}>
                       <ReservationsRoutes />
                     </PrivateRoute>
                   }
                 />
 
+                {/* Home */}
                 <Route path="/" element={<Home />} />
               </Routes>
             </ReservationsProvider>

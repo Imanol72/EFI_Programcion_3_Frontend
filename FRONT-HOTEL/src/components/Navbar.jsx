@@ -1,5 +1,6 @@
+// src/components/NavBar.jsx
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // solo un ".." es suficiente
 import { Button } from "primereact/button";
 
 const Navbar = () => {
@@ -8,22 +9,22 @@ const Navbar = () => {
   return (
     <nav className="navbar p-3 bg-gray-100 flex justify-between items-center shadow-md">
       <div className="flex gap-4">
-        <Link to="/">Inicio</Link>
+        <Link to="/">Home</Link>
 
         {user && (
           <>
-            <Link to="/habitaciones">Habitaciones</Link>
+            <Link to="/rooms">Rooms</Link>
 
-            {/* Solo si es cliente */}
-            {user.rol === "cliente" && <Link to="/reservas">Mis Reservas</Link>}
+            {/* Only for client */}
+            {user.rol === "client" && <Link to="/reservations">My Reservations</Link>}
 
-            {/* Solo si es admin o empleado */}
-            {(user.rol === "admin" || user.rol === "empleado") && (
-              <Link to="/clientes">Clientes</Link>
+            {/* Only for admin or employee */}
+            {(user.rol === "admin" || user.rol === "employee") && (
+              <Link to="/clients">Clients</Link>
             )}
 
-            {/* Solo admin */}
-            {user.rol === "admin" && <Link to="/usuarios">Usuarios</Link>}
+            {/* Only admin */}
+            {user.rol === "admin" && <Link to="/users">Users</Link>}
           </>
         )}
       </div>
@@ -31,8 +32,8 @@ const Navbar = () => {
       <div className="flex gap-4">
         {!user ? (
           <>
-            <Link to="/inicio-sesion">Login</Link>
-            <Link to="/registro">Registro</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
           </>
         ) : (
           <Button
