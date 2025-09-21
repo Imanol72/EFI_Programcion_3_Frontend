@@ -9,15 +9,15 @@ import PublicRoute from "./components/PublicRoute";
 
 import Navbar from "./components/Navbar";
 
-import Home from "./layouts/home/Home";
-import Login from "./layouts/auth/Login";
-import Register from "./layouts/auth/Register";
-import ForgotPassword from "./layouts/auth/ForgotPassword";
-import ResetPassword from "./layouts/auth/ResetPassword";
+// import Home from "./layouts/home/Home";
+// import Login from "./layouts/auth/Login";
+// import Register from "./layouts/auth/Register";
+// import ForgotPassword from "./layouts/auth/ForgotPassword";
+// import ResetPassword from "./layouts/auth/ResetPassword";
 
-import RoomsRoutes from "./layouts/rooms";
-import ClientsRoutes from "./layouts/clients";
-import ReservationsRoutes from "./layouts/reservations";
+// import RoomsRoutes from "./layouts/rooms";
+// import ClientsRoutes from "./layouts/clients";
+// import ReservationsRoutes from "./layouts/reservations";
 
 function App() {
   return (
