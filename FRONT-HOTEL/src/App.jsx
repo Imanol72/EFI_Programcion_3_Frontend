@@ -14,7 +14,7 @@ import PublicRoute from "./components/PublicRoute";
 // Componentes
 import Navbar from "./components/Navbar";
 
-// Layouts (que internamente llaman a sus Pages)
+// Layouts
 import Home from "./layouts/home/Home";
 import RoomsRoutes from "./layouts/rooms";
 import ClientsRoutes from "./layouts/clients";
@@ -47,7 +47,7 @@ function App() {
 
                 {/* Auth */}
                 <Route
-                  path="/login"
+                  path="/inicio-sesion"
                   element={
                     <PublicRoute>
                       <Login />
@@ -55,7 +55,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/register"
+                  path="/registro"
                   element={
                     <PublicRoute>
                       <Register />
@@ -63,7 +63,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/forgot-password"
+                  path="/recuperar-contraseña"
                   element={
                     <PublicRoute>
                       <ForgotPassword />
@@ -71,7 +71,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/reset-password"
+                  path="/restablecer-contraseña"
                   element={
                     <PublicRoute>
                       <ResetPassword />
@@ -81,7 +81,7 @@ function App() {
 
                 {/* Rutas privadas */}
                 <Route
-                  path="/rooms/*"
+                  path="/habitaciones/*"
                   element={
                     <PrivateRoute>
                       <RoomsRoutes />
@@ -89,7 +89,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/clients/*"
+                  path="/clientes/*"
                   element={
                     <PrivateRoute>
                       <ClientsRoutes />
@@ -97,7 +97,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/reservations/*"
+                  path="/reservas/*"
                   element={
                     <PrivateRoute>
                       <ReservationsRoutes />
