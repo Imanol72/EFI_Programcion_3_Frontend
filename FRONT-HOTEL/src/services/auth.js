@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // Configuración base del backend
-const API_URL = "http://localhost:8000/api"; // cambia según tu backend
+const API_URL = "http://localhost:3000/api"; // cambia según tu backend
 
 const login = async (credentials) => {
   const res = await axios.post(`${API_URL}/auth/login`, credentials);
