@@ -1,4 +1,6 @@
+// src/components/Navbar.jsx
 import { Menubar } from "primereact/menubar";
+import { Button } from "primereact/button";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -6,34 +8,82 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // ¿Está logueado? (evita contar {} como logueado)
+  const isLogged = !!(
+    user &&
+    (user.id || user.username || user.email || user.token)
+  );
+
+  // role o rol, en minúsculas
+  const role = ((user?.role ?? user?.rol) ?? "")
+    .toString()
+    .trim()
+    .toLowerCase();
+
   const items = [
-    { label: "Inicio", command: () => navigate("/") },
-    ...(user
+    { label: "Inicio", icon: "pi pi-home", command: () => navigate("/") },
+
+    ...(isLogged
       ? [
-          { label: "Habitaciones", command: () => navigate("/habitaciones") },
-          ...(user.rol === "cliente"
-            ? [{ label: "Mis Reservas", command: () => navigate("/reservas") }]
+          { label: "Rooms", icon: "pi pi-th-large", command: () => navigate("/rooms") },
+
+          ...(role === "cliente"
+            ? [{
+                label: "My Reservations",
+                icon: "pi pi-calendar",
+                command: () => navigate("/reservations"),
+              }]
             : []),
-          ...(user.rol === "admin" || user.rol === "empleado"
-            ? [{ label: "Clientes", command: () => navigate("/clientes") }]
+
+          ...(role === "admin" || role === "empleado"
+            ? [{
+                label: "Clients",
+                icon: "pi pi-users",
+                command: () => navigate("/clients"),
+              }]
             : []),
-          ...(user.rol === "admin"
-            ? [{ label: "Usuarios", command: () => navigate("/usuarios") }]
+
+          ...(role === "admin"
+            ? [{
+                label: "Users",
+                icon: "pi pi-user",
+                command: () => navigate("/users"),
+              }]
             : []),
         ]
       : [
-          { label: "Login", command: () => navigate("/inicio-sesion") },
-          { label: "Registro", command: () => navigate("/registro") },
+          {
+            label: "Login",
+            icon: "pi pi-sign-in",
+            command: () => navigate("/inicio-sesion"),
+          },
+          {
+            label: "Register",
+            icon: "pi pi-user-plus",
+            command: () => navigate("/registro"),
+          },
         ]),
   ];
 
-  const end = user && (
-    <button onClick={logout} className="p-button p-button-danger p-button-sm">
-      Logout
-    </button>
+  const start = (
+    <div className="flex align-items-center gap-2 px-2">
+      <i className="pi pi-building" />
+      <span className="font-semibold">HotelApp</span>
+    </div>
   );
 
-  return <Menubar model={items} end={end} />;
+  const end = isLogged ? (
+    <Button
+      label="Logout"
+      icon="pi pi-sign-out"
+      severity="danger"
+      size="small"
+      onClick={logout}
+      className="ml-2"
+    />
+  ) : null;
+
+  return <Menubar model={items} start={start} end={end} />;
 };
 
 export default Navbar;

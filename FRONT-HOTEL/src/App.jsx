@@ -1,4 +1,3 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Contextos
@@ -14,11 +13,11 @@ import PublicRoute from "./components/PublicRoute";
 // Componentes
 import Navbar from "./components/Navbar";
 
-// Layouts
+// Layouts / Pages
 import Home from "./layouts/home/Home";
-import RoomsRoutes from "./layouts/rooms";
-import ClientsRoutes from "./layouts/clients";
-import ReservationsRoutes from "./layouts/reservations";
+import RoomsPage from "./pages/RoomsPage";
+import ReservationsPage from "./pages/ReservationsPage";
+import ClientsPage from "./pages/Clientspage";
 
 // Auth layouts
 import Login from "./layouts/auth/Login";
@@ -34,77 +33,81 @@ function App() {
           <ReservationsProvider>
             <Router>
               <Navbar />
-              <Routes>
-                {/* Home público */}
-                <Route
-                  path="/"
-                  element={
-                    <PublicRoute>
-                      <Home />
-                    </PublicRoute>
-                  }
-                />
+              {/* Contenedor de contenido (no afecta al Menubar) */}
+              <div style={{ maxWidth: "1200px", margin: "0 auto" }} className="p-3">
+                <Routes>
+                  {/* Home público */}
+                  <Route
+                    path="/"
+                    element={
+                      <PublicRoute>
+                        <Home />
+                      </PublicRoute>
+                    }
+                  />
 
-                {/* Auth */}
-                <Route
-                  path="/inicio-sesion"
-                  element={
-                    <PublicRoute>
-                      <Login />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="/registro"
-                  element={
-                    <PublicRoute>
-                      <Register />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="/recuperar-contraseña"
-                  element={
-                    <PublicRoute>
-                      <ForgotPassword />
-                    </PublicRoute>
-                  }
-                />
-                <Route
-                  path="/restablecer-contraseña"
-                  element={
-                    <PublicRoute>
-                      <ResetPassword />
-                    </PublicRoute>
-                  }
-                />
+                  {/* Auth */}
+                  <Route
+                    path="/inicio-sesion"
+                    element={
+                      <PublicRoute>
+                        <Login />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/registro"
+                    element={
+                      <PublicRoute>
+                        <Register />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/recuperar-contraseña"
+                    element={
+                      <PublicRoute>
+                        <ForgotPassword />
+                      </PublicRoute>
+                    }
+                  />
+                  <Route
+                    path="/restablecer-contraseña"
+                    element={
+                      <PublicRoute>
+                        <ResetPassword />
+                      </PublicRoute>
+                    }
+                  />
 
-                {/* Rutas privadas */}
-                <Route
-                  path="/habitaciones/*"
-                  element={
-                    <PrivateRoute>
-                      <RoomsRoutes />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/clientes/*"
-                  element={
-                    <PrivateRoute>
-                      <ClientsRoutes />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/reservas/*"
-                  element={
-                    <PrivateRoute>
-                      <ReservationsRoutes />
-                    </PrivateRoute>
-                  }
-                />
-              </Routes>
+                  {/* Rutas privadas */}
+                  <Route
+                    path="/rooms/*"
+                    element={
+                      <PrivateRoute>
+                        <RoomsPage />
+                      </PrivateRoute>
+                    }
+                  />
+                  {/* OJO: paths en español para que coincidan con el Navbar */}
+                  <Route
+                    path="/clientes/*"
+                    element={
+                      <PrivateRoute>
+                        <ClientsPage />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route
+                    path="/reservas/*"
+                    element={
+                      <PrivateRoute>
+                        <ReservationsPage />
+                      </PrivateRoute>
+                    }
+                  />
+                </Routes>
+              </div>
             </Router>
           </ReservationsProvider>
         </ClientsProvider>
