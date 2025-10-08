@@ -1,4 +1,3 @@
-// src/components/PrivateRoute.jsx
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
@@ -8,11 +7,11 @@ const PrivateRoute = ({ children, roles }) => {
   if (loading) return <div>Loading...</div>;
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/inicio-sesion" />; // 👈 corregido
   }
 
   if (roles && !roles.includes(user.rol)) {
-    return <div>You do not have permission to access this page</div>;
+    return <div>No tenés permiso para acceder a esta página</div>;
   }
 
   return children;

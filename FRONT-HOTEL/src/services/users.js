@@ -1,29 +1,40 @@
-// src/services/users.js
-import api from "./api";
+import api, { logAxiosError } from "./api";
 
 const getAll = async () => {
-  const res = await api.get("/users");
-  return res.data;
+  try {
+    const res = await api.get("/users");
+    return res.data;
+  } catch (err) { logAxiosError(err, "Users: getAll"); }
 };
 
 const getById = async (id) => {
-  const res = await api.get(`/users/${id}`);
-  return res.data;
+  try {
+    const res = await api.get(`/users/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Users: getById"); }
 };
 
 const create = async (user) => {
-  const res = await api.post("/users", user);
-  return res.data;
+  // user: { username, password } si usás la misma tabla
+  try {
+    const res = await api.post("/users", user);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Users: create"); }
 };
 
 const update = async (id, user) => {
-  const res = await api.put(`/users/${id}`, user);
-  return res.data;
+  try {
+    const res = await api.put(`/users/${id}`, user);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Users: update"); }
 };
 
 const remove = async (id) => {
-  const res = await api.delete(`/users/${id}`);
-  return res.data;
+  try {
+    const res = await api.delete(`/users/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Users: remove"); }
 };
 
 export default { getAll, getById, create, update, remove };
+  

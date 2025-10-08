@@ -1,4 +1,3 @@
-// src/components/PublicRoute.jsx
 import { useAuth } from "../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
@@ -7,7 +6,8 @@ const PublicRoute = ({ children }) => {
 
   if (loading) return <div>Loading...</div>;
 
-  return user ? <Navigate to="/" /> : children;
+  // 👇 Mandar al módulo principal si ya está logueado
+  return user ? <Navigate to="/habitaciones" /> : children;
 };
 
 export default PublicRoute;

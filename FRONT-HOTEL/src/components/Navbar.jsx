@@ -1,49 +1,39 @@
-import { Link } from "react-router-dom";
+import { Menubar } from "primereact/menubar";
 import { useAuth } from "../context/AuthContext";
-import { Button } from "primereact/button";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  return (
-    <nav className="navbar p-3 bg-gray-100 flex justify-between items-center shadow-md">
-      <div className="flex gap-4">
-        <Link to="/">Inicio</Link>
+  const items = [
+    { label: "Inicio", command: () => navigate("/") },
+    ...(user
+      ? [
+          { label: "Habitaciones", command: () => navigate("/habitaciones") },
+          ...(user.rol === "cliente"
+            ? [{ label: "Mis Reservas", command: () => navigate("/reservas") }]
+            : []),
+          ...(user.rol === "admin" || user.rol === "empleado"
+            ? [{ label: "Clientes", command: () => navigate("/clientes") }]
+            : []),
+          ...(user.rol === "admin"
+            ? [{ label: "Usuarios", command: () => navigate("/usuarios") }]
+            : []),
+        ]
+      : [
+          { label: "Login", command: () => navigate("/inicio-sesion") },
+          { label: "Registro", command: () => navigate("/registro") },
+        ]),
+  ];
 
-        {user && (
-          <>
-            <Link to="/habitaciones">Habitaciones</Link>
-
-            {/* Solo si es cliente */}
-            {user.rol === "cliente" && <Link to="/reservas">Mis Reservas</Link>}
-
-            {/* Solo si es admin o empleado */}
-            {(user.rol === "admin" || user.rol === "empleado") && (
-              <Link to="/clientes">Clientes</Link>
-            )}
-
-            {/* Solo admin */}
-            {user.rol === "admin" && <Link to="/usuarios">Usuarios</Link>}
-          </>
-        )}
-      </div>
-
-      <div className="flex gap-4">
-        {!user ? (
-          <>
-            <Link to="/inicio-sesion">Login</Link>
-            <Link to="/registro">Registro</Link>
-          </>
-        ) : (
-          <Button
-            label="Logout"
-            className="p-button-sm p-button-danger"
-            onClick={logout}
-          />
-        )}
-      </div>
-    </nav>
+  const end = user && (
+    <button onClick={logout} className="p-button p-button-danger p-button-sm">
+      Logout
+    </button>
   );
+
+  return <Menubar model={items} end={end} />;
 };
 
 export default Navbar;

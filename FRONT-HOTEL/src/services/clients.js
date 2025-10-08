@@ -1,36 +1,39 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3000/api/clients";
+import api, { logAxiosError } from "./api";
 
 const getAll = async () => {
-  const res = await axios.get(API_URL);
-  return res.data;
+  try {
+    const res = await api.get("/clients");
+    return res.data;
+  } catch (err) { logAxiosError(err, "Clients: getAll"); }
 };
 
 const getById = async (id) => {
-  const res = await axios.get(`${API_URL}/${id}/`);
-  return res.data;
+  try {
+    const res = await api.get(`/clients/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Clients: getById"); }
 };
 
 const create = async (client) => {
-  const res = await axios.post(API_URL, client);
-  return res.data;
+  // client: { documento_identidad, telefono?, id_usuario? }
+  try {
+    const res = await api.post("/clients", client);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Clients: create"); }
 };
 
 const update = async (id, client) => {
-  const res = await axios.put(`${API_URL}/${id}/`, client);
-  return res.data;
+  try {
+    const res = await api.put(`/clients/${id}`, client);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Clients: update"); }
 };
 
 const remove = async (id) => {
-  const res = await axios.delete(`${API_URL}/${id}/`);
-  return res.data;
+  try {
+    const res = await api.delete(`/clients/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Clients: remove"); }
 };
 
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
+export default { getAll, getById, create, update, remove };

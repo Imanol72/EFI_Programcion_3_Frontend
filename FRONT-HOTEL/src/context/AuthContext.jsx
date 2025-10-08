@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // 🔑 Login
-  const login = async (credentials) => {
+  const login = async (credentials) => {    
     setLoading(true);
     try {
       const data = await authService.login(credentials);

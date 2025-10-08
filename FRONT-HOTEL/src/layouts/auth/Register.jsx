@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: "", password: "", name: "" });
+  const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -32,14 +32,9 @@ export default function Register() {
       <Card title="Registro" className="w-96">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <InputText
-            placeholder="Nombre"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
-          <InputText
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="Nombre de usuario"
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value })}
           />
           <Password
             placeholder="Contraseña"

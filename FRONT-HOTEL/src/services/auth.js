@@ -1,30 +1,33 @@
-// src/services/auth.js
-import axios from "axios";
+import api, { logAxiosError } from "./api";
 
-// Configuración base del backend
-const API_URL = "http://localhost:3000/api"; // cambia según tu backend
-
-const login = async (credentials) => {
-  const res = await axios.post(`${API_URL}/auth/login`, credentials);
-  return res.data;
+const login = async ({ username, password }) => {
+  try {
+    const res = await api.post("/auth/login", { username, password });
+    return res.data; // { token, user }
+  } catch (err) { logAxiosError(err, "Auth: login"); }
 };
 
-const register = async (userData) => {
-  const res = await axios.post(`${API_URL}/auth/register`, userData);
-  return res.data;
+const register = async ({ username, password }) => {
+  try {
+    const res = await api.post("/auth/register", { username, password });
+    return res.data;
+  } catch (err) { logAxiosError(err, "Auth: register"); }
 };
 
+// ⚠️ Solo dejalos si TENÉS estos endpoints en el backend.
+// Si no existen, comentá/quitá estas funciones:
 const forgotPassword = async (email) => {
-  const res = await axios.post(`${API_URL}/auth/forgot-password`, { email });
-  return res.data;
+  try {
+    const res = await api.post("/auth/forgot-password", { email });
+    return res.data;
+  } catch (err) { logAxiosError(err, "Auth: forgotPassword"); }
 };
 
 const resetPassword = async (token, newPassword) => {
-  const res = await axios.post(`${API_URL}/auth/reset-password`, {
-    token,
-    password: newPassword,
-  });
-  return res.data;
+  try {
+    const res = await api.post("/auth/reset-password", { token, password: newPassword });
+    return res.data;
+  } catch (err) { logAxiosError(err, "Auth: resetPassword"); }
 };
 
 export default { login, register, forgotPassword, resetPassword };

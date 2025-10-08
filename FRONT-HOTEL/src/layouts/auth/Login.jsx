@@ -10,23 +10,24 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {    
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    try {
-      await login(credentials);
-      navigate("/"); // redirige al home
-    } catch (err) {
-      setError("Credenciales incorrectas");
-    } finally {
-      setLoading(false);
+    const result = await login(credentials);
+
+    if (result.success) {
+      navigate("/habitaciones"); // o a donde quieras mandar al user
+    } else {
+      setError(result.error || "Credenciales incorrectas");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -34,10 +35,10 @@ export default function Login() {
       <Card title="Iniciar Sesión" className="w-96">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <InputText
-            placeholder="Email"
-            value={credentials.email}
+            placeholder="Nombre de usuario"
+            value={credentials.username}
             onChange={(e) =>
-              setCredentials({ ...credentials, email: e.target.value })
+              setCredentials({ ...credentials, username: e.target.value })
             }
           />
           <Password

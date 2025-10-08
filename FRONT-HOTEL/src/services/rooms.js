@@ -1,36 +1,39 @@
-import axios from "axios";
-
-const API_URL = "http://localhost:3000/api/rooms";
+import api, { logAxiosError } from "./api";
 
 const getAll = async () => {
-  const res = await axios.get(API_URL);
-  return res.data;
+  try {
+    const res = await api.get("/rooms");
+    return res.data;
+  } catch (err) { logAxiosError(err, "Rooms: getAll"); }
 };
 
 const getById = async (id) => {
-  const res = await axios.get(`${API_URL}/${id}/`);
-  return res.data;
+  try {
+    const res = await api.get(`/rooms/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Rooms: getById"); }
 };
 
 const create = async (room) => {
-  const res = await axios.post(API_URL, room);
-  return res.data;
+  // room: { numero_habitacion, tipo, precio_noche, disponible? }
+  try {
+    const res = await api.post("/rooms", room);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Rooms: create"); }
 };
 
 const update = async (id, room) => {
-  const res = await axios.put(`${API_URL}/${id}/`, room);
-  return res.data;
+  try {
+    const res = await api.put(`/rooms/${id}`, room);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Rooms: update"); }
 };
 
 const remove = async (id) => {
-  const res = await axios.delete(`${API_URL}/${id}/`);
-  return res.data;
+  try {
+    const res = await api.delete(`/rooms/${id}`);
+    return res.data;
+  } catch (err) { logAxiosError(err, "Rooms: remove"); }
 };
 
-export default {
-  getAll,
-  getById,
-  create,
-  update,
-  remove,
-};
+export default { getAll, getById, create, update, remove };
