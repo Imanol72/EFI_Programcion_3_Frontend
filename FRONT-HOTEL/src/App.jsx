@@ -91,7 +91,7 @@ function App() {
                   />
                   {/* OJO: paths en español para que coincidan con el Navbar */}
                   <Route
-                    path="/clientes/*"
+                    path="/clients/*"
                     element={
                       <PrivateRoute>
                         <ClientsPage />
@@ -99,7 +99,7 @@ function App() {
                     }
                   />
                   <Route
-                    path="/reservas/*"
+                    path="/reservations/*"
                     element={
                       <PrivateRoute>
                         <ReservationsPage />
