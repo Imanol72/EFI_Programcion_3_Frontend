@@ -6,8 +6,8 @@ const PublicRoute = ({ children }) => {
 
   if (loading) return <div>Loading...</div>;
 
-  // 👇 Mandar al módulo principal si ya está logueado
-  return user ? <Navigate to="/habitaciones" /> : children;
+  // Si está logueado, no tiene sentido ver login/register → lo mando a rooms
+  return user ? <Navigate to="/rooms" replace /> : children;
 };
 
 export default PublicRoute;

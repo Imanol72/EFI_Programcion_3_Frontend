@@ -1,0 +1,117 @@
+/* === AJUSTES GLOBALES === */
+html,
+body,
+#root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow-x: hidden;
+}
+
+/* === SECCIÓN PRINCIPAL === */
+.home-hero {
+  position: fixed; /* fija el fondo al viewport completo */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  overflow: hidden;
+  animation: fadeInBackground 1.5s ease-in forwards;
+  z-index: 0; /* el nav bar queda arriba */
+}
+
+/* === CÍRCULO TRANSLÚCIDO === */
+.home-circle {
+  position: absolute;
+  right: -10vw;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(57vw, 563px);
+  height: min(102vw, 1024px);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: clamp(24px, 6vw, 80px);
+  padding-right: clamp(24px, 6vw, 80px);
+  opacity: 0;
+  animation: fadeInCircle 1.2s ease-in-out 0.3s forwards;
+}
+
+/* === TÍTULO === */
+.home-title {
+  font-size: clamp(60px, 4vw, 44px);
+  font-weight: 600;
+  margin: 90 0 24px 0;
+  color: #222;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* === BOTONES === */
+.home-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.home-actions .p-button {
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-width: 2px;
+  background: rgba(255, 255, 255, 0.65);
+  color: #111;
+  transition: all 0.3s ease;
+}
+
+.home-actions .p-button:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: scale(1.05);
+}
+
+/* === ANIMACIONES === */
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInCircle {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .home-circle {
+    right: -18vw;
+    width: min(90vw, 520px);
+    height: min(90vw, 520px);
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .home-title {
+    font-size: clamp(24px, 5vw, 36px);
+  }
+}

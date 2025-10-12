@@ -1,10 +1,11 @@
+// src/layouts/auth/Register.jsx
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
-import { Card } from "primereact/card";
-import authService from "../../services/auth";
 import { useNavigate } from "react-router-dom";
+import authService from "../../services/auth";
+import "./auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -14,13 +15,12 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
-
+    setLoading(true);
     try {
       await authService.register(form);
       navigate("/inicio-sesion");
-    } catch (err) {
+    } catch {
       setError("Error en el registro");
     } finally {
       setLoading(false);
@@ -28,25 +28,43 @@ export default function Register() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card title="Registro" className="w-96">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-          <InputText
-            placeholder="Nombre de usuario"
-            value={form.username}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
-          />
-          <Password
-            placeholder="Contraseña"
-            feedback={true}
-            toggleMask
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
+    <div className="auth-hero">
+      <div className="auth-circle left">
+        <form className="auth-content" onSubmit={handleSubmit}>
+          <h1 className="auth-title">Registro</h1>
+
+          <div className="auth-field">
+            <span className="p-float-label">
+              <InputText
+                id="reg-username"
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
+              />
+              <label htmlFor="reg-username">Ingrese un nombre de usuario</label>
+            </span>
+          </div>
+
+          <div className="auth-field">
+            <span className="p-float-label">
+              <Password
+                id="reg-password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                feedback
+                toggleMask
+              />
+              <label htmlFor="reg-password">Ingrese una contraseña</label>
+            </span>
+          </div>
+
           {error && <small className="p-error">{error}</small>}
-          <Button label="Registrarse" type="submit" loading={loading} />
+
+          <div className="auth-actions">
+            <Button type="submit" label="Registrar" loading={loading} />
+            <Button type="button" label="Volver a Login" outlined onClick={() => navigate("/inicio-sesion")} />
+          </div>
         </form>
-      </Card>
+      </div>
     </div>
   );
 }

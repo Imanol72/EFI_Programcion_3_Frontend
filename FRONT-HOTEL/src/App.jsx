@@ -17,7 +17,7 @@ import Navbar from "./components/Navbar";
 import Home from "./layouts/home/Home";
 import RoomsPage from "./pages/RoomsPage";
 import ReservationsPage from "./pages/ReservationsPage";
-import ClientsPage from "./pages/Clientspage";
+import ClientsPage from "./pages/ClientsPage";
 
 // Auth layouts
 import Login from "./layouts/auth/Login";
@@ -33,20 +33,14 @@ function App() {
           <ReservationsProvider>
             <Router>
               <Navbar />
-              {/* Contenedor de contenido (no afecta al Menubar) */}
-              <div style={{ maxWidth: "1200px", margin: "0 auto" }} className="p-3">
+             {/*  <div style={{ maxWidth: "1200px", margin: "0 auto" }} className="p-3"> */}
                 <Routes>
-                  {/* Home público */}
-                  <Route
-                    path="/"
-                    element={
-                      <PublicRoute>
-                        <Home />
-                      </PublicRoute>
-                    }
-                  />
+                  {/* ✅ Home público (SIN PublicRoute) */}
+                  <Route path="/" element={<Home />} />
+                  {/* (Opcional) alias canónico si te gusta /home */}
+                  {/* <Route path="/home" element={<Home />} /> */}
 
-                  {/* Auth */}
+                  {/* Auth (sí usan PublicRoute) */}
                   <Route
                     path="/inicio-sesion"
                     element={
@@ -80,7 +74,7 @@ function App() {
                     }
                   />
 
-                  {/* Rutas privadas */}
+                  {/* Privadas */}
                   <Route
                     path="/rooms/*"
                     element={
@@ -89,7 +83,6 @@ function App() {
                       </PrivateRoute>
                     }
                   />
-                  {/* OJO: paths en español para que coincidan con el Navbar */}
                   <Route
                     path="/clients/*"
                     element={
@@ -107,7 +100,6 @@ function App() {
                     }
                   />
                 </Routes>
-              </div>
             </Router>
           </ReservationsProvider>
         </ClientsProvider>

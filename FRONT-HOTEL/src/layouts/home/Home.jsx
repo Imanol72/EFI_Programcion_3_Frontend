@@ -1,53 +1,25 @@
-import { useAuth } from "../../context/AuthContext";
+// src/layouts/home/Home.jsx
 import { Link } from "react-router-dom";
-import { Card } from "primereact/card";
 import { Button } from "primereact/button";
+import "./Home.css";
 
-const Home = () => {
-  const { user } = useAuth();
-
+export default function Home() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Card title="Hotel System" className="w-full max-w-lg text-center shadow-lg">
-        {!user ? (
-          <>
-            <p className="mb-4">Please login or register to continue.</p>
-            <div className="flex justify-center gap-4">
-              <Link to="/inicio-sesion">
-                <Button label="Login" className="p-button-primary" />
-              </Link>
-              <Link to="/registro">
-                <Button label="Register" className="p-button-success" />
-              </Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <p className="mb-4">
-              Hello, <span className="font-semibold">{user.username}</span>! 👋
-            </p>
-
-            {user.rol === "cliente" && (
-              <Link to="/reservas">
-                <Button label="My Reservations" className="p-button-info" />
-              </Link>
-            )}
-
-            {(user.rol === "admin" || user.rol === "empleado") && (
-              <div className="flex justify-center gap-4">
-                <Link to="/habitaciones">
-                  <Button label="Manage Rooms" className="p-button-help" />
-                </Link>
-                <Link to="/clientes">
-                  <Button label="Manage Clients" className="p-button-warning" />
-                </Link>
-              </div>
-            )}
-          </>
-        )}
-      </Card>
+    <div
+      className="home-hero"
+      style={{ backgroundImage: `url(/imgs/hotel-fachada.jpg)` }}
+    >
+      <div className="home-circle">
+        <h1 className="home-title">HotelApp</h1>
+        <div className="home-actions">
+          <Link to="/inicio-sesion">
+            <Button label="Login" rounded />
+          </Link>
+          <Link to="/registro">
+            <Button label="Register" rounded />
+          </Link>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Home;
+}

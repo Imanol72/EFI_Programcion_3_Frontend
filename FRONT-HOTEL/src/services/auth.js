@@ -7,6 +7,8 @@ const login = async ({ username, password }) => {
   } catch (err) { logAxiosError(err, "Auth: login"); }
 };
 
+
+
 const register = async ({ username, password }) => {
   try {
     const res = await api.post("/auth/register", { username, password });

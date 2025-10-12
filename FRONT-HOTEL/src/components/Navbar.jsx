@@ -31,11 +31,16 @@ const Navbar = () => {
   );
 
   const items = [
-    { label: "Inicio", icon: "pi pi-home", command: () => navigate("/") },
+     { label: "Inicio", icon: "pi pi-home", command: () => navigate("/") },
+
 
     ...(isLogged
       ? [
-          { label: "Rooms", icon: "pi pi-th-large", command: () => navigate("/rooms") },
+          ...(hasRole("admin") ? [{
+            label: "Rooms",
+             icon: "pi pi-th-large",
+              command: () => navigate("/rooms"),
+          }] : []),
 
           // --- Reglas por rol (ajusta a tus reglas reales) ---
           ...(hasRole("cliente") ? [{
@@ -50,7 +55,7 @@ const Navbar = () => {
             command: () => navigate("/reservations"),
           }] : []),
 
-          ...(hasRole("empleado") || hasRole("admin") || hasRole("administrador") || hasRole("cliente") ? [{
+          ...(hasRole("empleado") || hasRole("admin") || hasRole("administrador") ? [{
             label: "Clients",
             icon: "pi pi-users",
             command: () => navigate("/clients"),
