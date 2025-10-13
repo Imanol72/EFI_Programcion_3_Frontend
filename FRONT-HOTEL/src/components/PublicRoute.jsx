@@ -7,7 +7,7 @@ const PublicRoute = ({ children }) => {
   if (loading) return <div>Loading...</div>;
 
   // Si está logueado, no tiene sentido ver login/register → lo mando a rooms
-  return user ? <Navigate to="/rooms" replace /> : children;
+  return user ? <Navigate to="/reservations" replace /> : children;
 };
 
 export default PublicRoute;

@@ -31,4 +31,3 @@ export function logAxiosError(err, label = "Request error") {
 }
 
 export default api;
-
