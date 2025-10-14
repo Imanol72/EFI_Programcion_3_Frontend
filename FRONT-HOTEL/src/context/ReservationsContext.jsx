@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import reservationsService from "../services/reservations";
 
 const ReservationsContext = createContext();
@@ -6,52 +6,56 @@ const ReservationsContext = createContext();
 export const ReservationsProvider = ({ children }) => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [filters, setFilters] = useState({ from: "", to: "", roomId: "", status: "" });
 
-  const fetchReservations = async () => {
+  const fetchReservations = async (params = {}) => {
     setLoading(true);
+    setErrorMsg(null);
     try {
-      const data = await reservationsService.getAll();
-      setReservations(data);
-    } catch (err) {
-      console.error("Error fetching reservations:", err);
+      const data = await reservationsService.list(params);
+      setReservations(data || []);
+    } catch (e) {
+      setErrorMsg(e?.response?.data?.message || "Error cargando reservas");
     } finally {
       setLoading(false);
     }
   };
 
-  const addReservation = async (res) => {
-    try {
-      const newRes = await reservationsService.create(res);
-      setReservations([...reservations, newRes]);
-    } catch (err) {
-      console.error("Error adding reservation:", err);
-    }
+  const addReservation = async (payload) => {
+    setErrorMsg(null);
+    const created = await reservationsService.create(payload);
+    // refrescamos con filtros actuales
+    await fetchReservations(filters);
+    return created;
   };
 
-  const editReservation = async (id, updated) => {
-    try {
-      const updatedRes = await reservationsService.update(id, updated);
-      setReservations(reservations.map(r => (r.id === id ? updatedRes : r)));
-    } catch (err) {
-      console.error("Error updating reservation:", err);
-    }
+  const editReservation = async (id, payload) => {
+    setErrorMsg(null);
+    const updated = await reservationsService.update(id, payload);
+    await fetchReservations(filters);
+    return updated;
   };
 
   const removeReservation = async (id) => {
-    try {
-      await reservationsService.remove(id);
-      setReservations(reservations.filter(r => r.id !== id));
-    } catch (err) {
-      console.error("Error deleting reservation:", err);
-    }
+    setErrorMsg(null);
+    await reservationsService.remove(id);
+    await fetchReservations(filters);
   };
 
   useEffect(() => {
-    fetchReservations();
+    fetchReservations(filters);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <ReservationsContext.Provider value={{ reservations, loading, addReservation, editReservation, removeReservation }}>
+    <ReservationsContext.Provider
+      value={{
+        reservations, loading, errorMsg,
+        filters, setFilters, fetchReservations,
+        addReservation, editReservation, removeReservation,
+      }}
+    >
       {children}
     </ReservationsContext.Provider>
   );

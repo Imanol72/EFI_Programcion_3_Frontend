@@ -1,39 +1,38 @@
 import api, { logAxiosError } from "./api";
 
-const getAll = async () => {
+const list = async (params = {}) => {
   try {
-    const res = await api.get("/reservations");
+    const res = await api.get("/reservations", { params });
     return res.data;
-  } catch (err) { logAxiosError(err, "Reservations: getAll"); }
+  } catch (err) { logAxiosError(err, "Reservations: list"); throw err; }
 };
 
 const getById = async (id) => {
   try {
     const res = await api.get(`/reservations/${id}`);
     return res.data;
-  } catch (err) { logAxiosError(err, "Reservations: getById"); }
+  } catch (err) { logAxiosError(err, "Reservations: getById"); throw err; }
 };
 
-const create = async (reservation) => {
-  // reservation: { fecha_inicio, fecha_fin, estado?, id_cliente, id_habitacion, id_usuario }
+const create = async (payload) => {
   try {
-    const res = await api.post("/reservations", reservation);
+    const res = await api.post("/reservations", payload);
     return res.data;
-  } catch (err) { logAxiosError(err, "Reservations: create"); }
+  } catch (err) { logAxiosError(err, "Reservations: create"); throw err; }
 };
 
-const update = async (id, reservation) => {
+const update = async (id, payload) => {
   try {
-    const res = await api.put(`/reservations/${id}`, reservation);
+    const res = await api.put(`/reservations/${id}`, payload);
     return res.data;
-  } catch (err) { logAxiosError(err, "Reservations: update"); }
+  } catch (err) { logAxiosError(err, "Reservations: update"); throw err; }
 };
 
 const remove = async (id) => {
   try {
     const res = await api.delete(`/reservations/${id}`);
     return res.data;
-  } catch (err) { logAxiosError(err, "Reservations: remove"); }
+  } catch (err) { logAxiosError(err, "Reservations: remove"); throw err; }
 };
 
-export default { getAll, getById, create, update, remove };
+export default { list, getById, create, update, remove };
