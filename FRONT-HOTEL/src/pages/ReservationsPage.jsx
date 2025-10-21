@@ -161,13 +161,14 @@ export default function ReservationsPage() {
     check();
     return () => { cancelled = true; };
   }, [form.id_habitacion, form.check_in, form.check_out, editingId]);
-
+  console.log(clients);
+  
   const clientOptions = useMemo(() => {
     return [
       { value: "", label: "Seleccionar cliente…" },
-      ...clients.map(c => ({
+      ...clients?.data?.map(c => ({
         value: String(c.id),
-        label: `${c.nombre} ${c.apellido}${c.email ? " · " + c.email : ""}`,
+        label: `${c.nombre}`,
       })),
     ];
   }, [clients]);
