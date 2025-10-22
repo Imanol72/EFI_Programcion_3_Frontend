@@ -256,7 +256,7 @@ export default function ReservationsPage() {
           {checking && <div style={{ gridColumn: "1 / -1", color: "#94a3b8" }}>Comprobando disponibilidad…</div>}
           {conflict && (
             <div style={{ gridColumn: "1 / -1", color: "#fca5a5", fontWeight: 600 }}>
-              Se solapa con la reserva #{conflict.id} ({conflict.check_in} → {conflict.check_out}).
+              Se encuentra agotado el alojamiento para estas fechas ({conflict.check_in} → {conflict.check_out}) ¡disculpe las molestias! .
             </div>
           )}
           {(submitError || errorMsg) && (
@@ -364,9 +364,9 @@ export default function ReservationsPage() {
             <tbody>
               {reservations.map(r => (
                 <tr key={r.id}>
-                  <td>#{r.id}</td>
+                
                   <td>{r.room ? `${r.room.tipo} — $${r.room.precio_noche} (cap ${r.room.capacidad}) · Hab ${r.room.numero_habitacion || r.id_habitacion}` : `Hab ${r.id_habitacion}`}</td>
-                  <td>{r.client ? `${r.client.nombre} ${r.client.apellido}` : "-"}</td>
+                  <td>{r.client ? `${r.client.nombre}` : "-"}</td>
                   <td>{r.check_in}</td>
                   <td>{r.check_out}</td>
                   <td><span className="type-chip">{r.estado}</span></td>

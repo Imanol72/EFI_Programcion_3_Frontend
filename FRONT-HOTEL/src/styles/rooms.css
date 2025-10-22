@@ -187,45 +187,10 @@
   .actions-col { align-items: stretch; }
   .room-thumb-lg, .room-thumb--empty { width: 100%; height: 180px; }
 }
-/* ===== SELECT LINDO ===== */
-.select {
-  position: relative;
-}
-.select .control {
-  padding-right: 42px;          /* espacio para la flecha */
-  appearance: none;             /* oculta flecha nativa */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-/* Flecha SVG embebida */
-.select::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  width: 18px;
-  height: 18px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  opacity: .85;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 16px 16px;
-  /* chevron down en SVG, color toma var(--muted) */
-  background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='%23a7adbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
-<polyline points='6 9 12 15 18 9'/></svg>");
-}
-
-/* hover/focus coherente */
-.select:has(.control:hover)::after { opacity: 1; }
-.select:has(.control:focus)::after { filter: drop-shadow(0 0 2px rgba(185,194,208,.35)); }
-
-/* ===== SELECT CROSS-BROWSER ===== */
+/* ===== SELECT LINDO (white solid theme) ===== */
 .select { position: relative; display: block; width: 100%; }
 
-/* quita la UI nativa y hace que se vea como un input */
+/* control principal */
 .select > select.control {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -233,39 +198,39 @@
   box-sizing: border-box;
   width: 100%;
   height: 42px;
-  line-height: 42px;           /* alinea el texto verticalmente */
-  padding: 0 42px 0 12px;      /* deja espacio para la flecha */
+  line-height: 42px;
+  padding: 0 42px 0 12px;
   border-radius: 10px;
-  border: 1px solid var(--control-br);
-  background-color: var(--control-bg);
-  color: var(--fg);
+  border: 1px solid rgba(0,0,0,0.15);
+  background-color: #fff;          /* 👈 sólido blanco */
+  color: #111;
   outline: none;
   transition: border-color .15s ease, background .15s ease, box-shadow .15s ease;
 }
+
 .select > select.control:hover {
-  background-color: var(--control-bg-hover);
+  background-color: #f9fafb;
 }
+
 .select > select.control:focus {
-  border-color: var(--control-br-focus);
-  box-shadow: 0 0 0 3px rgba(185,194,208,.12);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
 }
 
-/* oculta la flecha en IE/Edge antiguo */
+/* elimina la flecha nativa */
 .select > select.control::-ms-expand { display: none; }
-
-/* corrige un bug visual de firefox al enfocar */
 .select > select.control:-moz-focusring {
   color: transparent;
-  text-shadow: 0 0 0 var(--fg);
+  text-shadow: 0 0 0 #111;
 }
 
-/* estilo de las opciones del menú (cuando el browser lo permite) */
+/* menú de opciones */
 .select > select.control option {
-  background-color: var(--control-bg);
-  color: var(--fg);
+  background-color: #fff;
+  color: #111;
 }
 
-/* flecha custom */
+/* Flecha SVG (negra suave) */
 .select::after {
   content: "";
   position: absolute;
@@ -280,100 +245,74 @@
   background-position: center;
   background-size: 16px 16px;
   background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='%23a7adbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>\
 <polyline points='6 9 12 15 18 9'/></svg>");
 }
-.select:has(select.control:hover)::after { opacity: 1; }
-.select:has(select.control:focus)::after { filter: drop-shadow(0 0 2px rgba(185,194,208,.35)); }
+.select:hover::after { opacity: 1; }
+.select:focus-within::after { filter: drop-shadow(0 0 2px rgba(0,0,0,.25)); }
 
-
-/* ===== NiceSelect (custom select) ===== */
+/* ===== NICESELECT BLANCO ===== */
 .nsel { position: relative; width: 100%; outline: none; }
-.nsel:focus .nsel-control { border-color: var(--control-br-focus); box-shadow: 0 0 0 3px rgba(185,194,208,.12); }
 
 .nsel-control {
   display: flex; align-items: center; justify-content: space-between;
-  height: 42px; border-radius: 10px;
-  border: 1px solid var(--control-br);
-  background: var(--control-bg);
-  color: var(--fg);
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;                 /* 👈 fondo blanco */
+  color: #111;
   padding: 0 12px;
   cursor: pointer;
   transition: background .15s ease, border-color .15s ease, box-shadow .15s ease;
 }
-.nsel-control:hover { background: var(--control-bg-hover); }
+.nsel-control:hover { background: #f9fafb; }
 .nsel-control.is-disabled { opacity: .6; cursor: not-allowed; }
 
-.nsel-value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.nsel-value.placeholder { color: var(--muted); }
+.nsel-value.placeholder { color: #666; }
 
 .nsel-arrow {
-  width: 18px; height: 18px; opacity: .85; flex: 0 0 auto;
-  background-repeat: no-repeat; background-position: center; background-size: 16px 16px;
+  width: 18px; height: 18px; opacity: .85;
+  flex: 0 0 auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
   background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a7adbb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-}
-
-.nsel-menu {
-  position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 30;
-  background: var(--control-bg);
-  border: 1px solid var(--control-br);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  max-height: 260px; overflow: auto;
-}
-
-.nsel-option {
-  padding: 10px 12px; cursor: pointer; user-select: none;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-.nsel-option:last-child { border-bottom: 0; }
-.nsel-option.is-hover { background: var(--control-bg-hover); }
-.nsel-option.is-selected { color: var(--accent); font-weight: 700; }
-
-.nsel-menu {
-  position: absolute; left: 0; right: 0; top: calc(100% + 6px);
-  z-index: 1000;              /* 👈 más alto */
-  background: var(--control-bg);
-  border: 1px solid var(--control-br);
-  border-radius: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,.35);
-  max-height: 260px; overflow: auto;
-}
-
-/* ---- NiceSelect tema oscuro ---- */
-.ns-dark .ns-control,
-.ns-dark .ns-display,
-.ns-dark select {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: #f3f4f6;
-  border-radius: 10px;
-  height: 44px;
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
 }
 
 /* menú desplegable */
-.ns-dark .ns-menu {
-  background: #0b0f14;
-  border: 1px solid rgba(255,255,255,0.12);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  color: #e5e7eb;
+.nsel-menu {
+  position: absolute;
+  left: 0; right: 0;
+  top: calc(100% + 6px);
+  z-index: 1000;
+  background: #fff;                 /* 👈 sin transparencia */
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15);
+  max-height: 260px;
+  overflow: auto;
 }
 
-/* item hover/seleccionado */
-.ns-dark .ns-option:hover,
-.ns-dark .ns-option[aria-selected="true"] {
-  background: rgba(255,255,255,0.10);
+.nsel-option {
+  padding: 10px 12px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: #111;
+}
+.nsel-option:last-child { border-bottom: 0; }
+.nsel-option.is-hover { background: #f3f4f6; }
+.nsel-option.is-selected {
+  background: #e0e7ff;
+  color: #1e3a8a;
+  font-weight: 700;
 }
 
-/* scrollbar oscuro en listas */
-.ns-dark .ns-menu::-webkit-scrollbar {
-  width: 8px;
-}
-.ns-dark .ns-menu::-webkit-scrollbar-track {
-  background: #0b0f14;
-}
-.ns-dark .ns-menu::-webkit-scrollbar-thumb {
-  background: #2b3340;
+/* scrollbar */
+.nsel-menu::-webkit-scrollbar { width: 8px; }
+.nsel-menu::-webkit-scrollbar-track { background: #fff; }
+.nsel-menu::-webkit-scrollbar-thumb {
+  background: #ccc;
   border-radius: 6px;
 }
